@@ -1,0 +1,150 @@
+<!DOCTYPE html> <!--Kommentar-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="manifest" href="manifest.json">
+
+    <style>
+        .background-dark {
+            background-color: #606060;
+        }
+
+        .center {
+            display: flex;
+            justify-content: center;
+        }
+
+        .margin-top{
+            margin-top: 100px;
+        }
+
+        .timer {
+            font-size: 60px;
+            color: white;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .button {
+            font-size: 20px;
+            margin-top: 50px;
+            margin-left: 10px;
+        }
+        .startbutton {
+            font-size: 50px;
+            margin-top: 50px;
+            color: white;
+            background-color: blue;
+        }
+    </style>
+
+<!-- how to change the shape of buttons? -->
+<!-- wie kann ich Stop/Pause einführen? -->
+
+<script> 
+    //im Skript Kommentar
+    //definition der Variablen JavaScript
+    let alarm = new Audio('Small_tibetan_singing_bowl.mp3');
+    //let alarm = new Audio('Jump-Sound.wav');
+    let timerStarted = false;
+    let dur = 0;
+
+    function startTimer(duration) {
+        if (!timerStarted) {
+            let startTime = new Date().getTime();
+            let endTime = startTime + duration*1000;
+
+            let sekundenzaehler = setInterval(function() {
+                let timeLeft = endTime - new Date().getTime();
+
+                if(timeLeft > 0) {
+                    if(!timerStarted) {
+                        let minutes = timeLeft / (1000 * 60);
+                        minutes = Math.floor(minutes);
+                        minutes = ('0' + minutes).slice(-2);
+                        let seconds = (timeLeft / 1000) % 60;
+                        seconds = Math.round(seconds);
+                        seconds = ('0' + seconds).slice(-2);
+                        let text = minutes + ' : ' + seconds;
+                        timer.innerHTML = text;
+                        //button_text.innerHTML = 'stop';
+                    }
+                    else {
+                        setTimer(duration);
+                        clearInterval(sekundenzaehler);
+                    }
+                }else {
+                    timer.innerHTML = '00 : 00';
+                    alarm.play();
+                    timerStarted = true;
+                    clearInterval(sekundenzaehler);
+                }
+            }, 1000);
+        }
+        timerStarted = false;
+    }
+
+    function setTimer(duration) {
+        let minutes = duration / 60;
+        minutes = Math.floor(minutes);
+        minutes = ('0' + minutes).slice(-2);
+        let seconds = (duration) % 60;
+        seconds = Math.round(seconds);
+        seconds = ('0' + seconds).slice(-2);
+        let text = minutes + ' : ' + seconds;
+        timer.innerHTML = text;
+        dur = duration;
+    }
+
+    function stopTimer() {
+        timerStarted = true;
+    }
+
+</script>
+
+</head>
+
+<!--tatsächliche HTML im Body-->
+
+<body class="background-dark">
+
+    <div>
+        <img src="img/menu2.png">
+    </div>
+
+    <div class="center">
+        <img src="img/vogel2.jpg">
+    </div>
+
+    <div class="center">
+        <button class="button" onclick="setTimer(10)" > 00 : 10 </button>
+        <button class="button" onclick="setTimer(30)" > 00 : 30 </button>
+        <button class="button" onclick="setTimer(60)" > 01 : 00 </button>
+        <button class="button" onclick="setTimer(90)" > 01 : 30 </button>
+        <button class="button" onclick="setTimer(120)" > 02 : 00 </button>
+        <button class="button" onclick="setTimer(150)" > 02 : 30 </button>
+        <button class="button" onclick="setTimer(180)" > 03 : 00 </button>
+    </div>
+
+    <div class="center margin-top timer" id="timer">
+        00 : 00
+    </div>
+
+    <div class="center margin-top"> 
+        <!-- <img onclick="startTimer(dur)" src="img/start.png"> -->
+        <button class="startbutton" onclick="startTimer(dur)" id="button_text">
+            start
+        </button>
+        <button class="startbutton" onclick="stopTimer()" >
+            stop
+        </button>
+    </div>
+
+</body>
+</html>
+
+
+
+
