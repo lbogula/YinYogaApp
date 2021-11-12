@@ -21,6 +21,10 @@
             margin-top: 100px;
         }
 
+        .margin-mini{
+            margin-top: 10px;
+        }
+
         .timer {
             font-size: 60px;
             color: white;
@@ -35,23 +39,29 @@
         .startbutton {
             font-size: 50px;
             margin-top: 50px;
+            margin-left: 20px;
             color: white;
             background-color: blue;
         }
     </style>
 
 <!-- how to change the shape of buttons? -->
-<!-- wie kann ich Stop/Pause einführen? -->
 
 <script> 
     //im Skript Kommentar
     //definition der Variablen JavaScript
-    let alarm = new Audio('Small_tibetan_singing_bowl.mp3');
-    //let alarm = new Audio('Jump-Sound.wav');
+    //let alarm = new Audio('Small_tibetan_singing_bowl.mp3');
+    let alarm = new Audio('Jump-Sound.wav');
     let timerStarted = false;
+    let dur1 = 0;
+    let dur2 = 0;
+    let dur3 = 0;
     let dur = 0;
 
-    function startTimer(duration) {
+    function startTimer(dur,timer_number) {
+        //extractDuration(timer_number);
+        let duration = dur;
+        timerStarted = false; //damit man nur 1x drücken muss nach reset?!
         if (!timerStarted) {
             let startTime = new Date().getTime();
             let endTime = startTime + duration*1000;
@@ -68,15 +78,15 @@
                         seconds = Math.round(seconds);
                         seconds = ('0' + seconds).slice(-2);
                         let text = minutes + ' : ' + seconds;
-                        timer.innerHTML = text;
+                        timer_number.innerHTML = text;
                         //button_text.innerHTML = 'stop';
                     }
                     else {
-                        setTimer(duration);
+                        setTimer(duration,timer_number);
                         clearInterval(sekundenzaehler);
                     }
                 }else {
-                    timer.innerHTML = '00 : 00';
+                    timer_number.innerHTML = '00 : 00';
                     alarm.play();
                     timerStarted = true;
                     clearInterval(sekundenzaehler);
@@ -86,7 +96,7 @@
         timerStarted = false;
     }
 
-    function setTimer(duration) {
+    function setTimer(duration,timer_number) {
         let minutes = duration / 60;
         minutes = Math.floor(minutes);
         minutes = ('0' + minutes).slice(-2);
@@ -94,15 +104,55 @@
         seconds = Math.round(seconds);
         seconds = ('0' + seconds).slice(-2);
         let text = minutes + ' : ' + seconds;
-        timer.innerHTML = text;
-        dur = duration;
+        text = minutes + ' : ' + seconds;
+        timer_number.innerHTML = text;
+        //dur = duration;
     }
 
     function stopTimer() {
         timerStarted = true;
     }
 
+    function extractDuration(timer_number) {
+        tt  = timer_number.innerHTML;
+        tt_split = tt.split(":");
+        min = tt_split[0];
+        sec = tt_split[1];
+        dur = Math.round(min)*60 + Math.round(sec);
+        return dur
+    }   
+
+    function extractAllDurations() {
+        dur1 = extractDuration(timer_1);
+        //dur1=dur;
+        dur2 = extractDuration(timer_2);
+        //dur2=dur;
+        dur3 = extractDuration(timer_3);
+    }
+
+    function start_two() {
+        startTimer(dur2,timer_2);
+    }
+    function start_three() {
+        startTimer(dur3,timer_3);
+    }
+
+    function startAll() {
+        //dur3=dur;
+        extractAllDurations();
+        startTimer(dur1,timer_1);
+        setTimeout(start_two,dur1*1000+1);
+        //clearTimeout(testt);
+        setTimeout(start_three,dur1*1000+dur2*1000+1000);
+        output.innerHTML = dur1*1000+dur2*1000;
+        //setTimeout(() => {start_two;},dur1*1000+dur2*1000);
+        //$.when(startTimer(timer_1)).then(function(){startTimer(timer_2);})    
+        //output.innerHTML = dur;
+    }
+
+
 </script>
+
 
 </head>
 
@@ -115,29 +165,59 @@
     </div>
 
     <div class="center">
-        <button class="button" onclick="setTimer(10)" > 00 : 10 </button>
-        <button class="button" onclick="setTimer(20)" > 00 : 20 </button>
-        <button class="button" onclick="setTimer(30)" > 00 : 30 </button>
+        <button class="button" onclick="setTimer(90,timer_1)" > 01 : 30 </button>
+        <button class="button" onclick="setTimer(10,timer_1)" > 00 : 10 </button>
+       <!-- 
         <button class="button" onclick="setTimer(60)" > 01 : 00 </button>
         <button class="button" onclick="setTimer(90)" > 01 : 30 </button>
         <button class="button" onclick="setTimer(120)" > 02 : 00 </button>
         <button class="button" onclick="setTimer(150)" > 02 : 30 </button>
         <button class="button" onclick="setTimer(180)" > 03 : 00 </button>
+        -->
     </div>
 
-    <div class="center margin-top timer" id="timer">
+    <div class="center margin-mini timer" id="timer_1">
         00 : 00
     </div>
 
+    <div class="center">
+        <button class="button" onclick="setTimer(10,timer_2)" > 00 : 10 </button>
+        <button class="button" onclick="setTimer(30,timer_2)" > 00 : 30 </button>
+    </div>
+
+    <div class="center margin-mini timer" id="timer_2">
+        00 : 00
+    </div>
+
+    <div class="center">
+        <button class="button" onclick="setTimer(10,timer_3)" > 00 : 10 </button>
+        <button class="button" onclick="setTimer(30,timer_3)" > 00 : 30 </button>
+    </div>
+
+    <div class="center margin-mini timer" id="timer_3">
+        00 : 00
+    </div>
+
+
+
+    <div>
+        <button onclick="startAll()">test</button>
+    </div>
+    <p id="output"></p>
+   
+
     <div class="center margin-top"> 
         <!-- <img onclick="startTimer(dur)" src="img/start.png"> -->
-        <button class="startbutton" onclick="startTimer(dur)" id="button_text">
+        <button class="startbutton" onclick="startAll()" id="button_text">
             start
         </button>
         <button class="startbutton" onclick="stopTimer()" >
-            stop
+            reset
         </button>
     </div>
+
+
+
 
 </body>
 </html>
