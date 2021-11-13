@@ -26,14 +26,19 @@
         }
 
         .timer {
-            font-size: 60px;
+            font-size: 40px;
             color: white;
             font-family: 'Roboto', sans-serif;
         }
 
+        .asana {
+            font-size: 40px;
+            margin-top: 20px;
+        }
+
         .button {
-            font-size: 20px;
-            margin-top: 50px;
+            font-size: 15px;
+            margin-top: 30px;
             margin-left: 10px;
         }
         .startbutton {
@@ -51,12 +56,14 @@
     //im Skript Kommentar
     //definition der Variablen JavaScript
     //let alarm = new Audio('Small_tibetan_singing_bowl.mp3');
-    let alarm = new Audio('Jump-Sound.wav');
+    let alarm = new Audio('gong-burmese.wav');
     let timerStarted = false;
     let dur1 = 0;
     let dur2 = 0;
     let dur3 = 0;
     let dur = 0;
+
+    
 
     function startTimer(dur,timer_number) {
         //extractDuration(timer_number);
@@ -136,62 +143,83 @@
     function start_three() {
         startTimer(dur3,timer_3);
     }
+    
 
     function startAll() {
         //dur3=dur;
         extractAllDurations();
         startTimer(dur1,timer_1);
         setTimeout(start_two,dur1*1000+1);
-        //clearTimeout(testt);
         setTimeout(start_three,dur1*1000+dur2*1000+1000);
-        output.innerHTML = dur1*1000+dur2*1000;
         //setTimeout(() => {start_two;},dur1*1000+dur2*1000);
         //$.when(startTimer(timer_1)).then(function(){startTimer(timer_2);})    
         //output.innerHTML = dur;
     }
 
-
+    function setAsana(asana_i) {
+        asana = input ;
+        asana_i.innerHTML = asana;
+    }
+    
 </script>
 
 
 </head>
+
 
 <!--tatsächliche HTML im Body-->
 
 <body class="background-dark">
 
     <div class="center">
-        <img src="vogel2.jpg">
+        <img src="vogel3.jpg">
     </div>
 
+    <div class="center asana"> Übung 1 </div>
+
     <div class="center">
-        <button class="button" onclick="setTimer(90,timer_1)" > 01 : 30 </button>
-        <button class="button" onclick="setTimer(10,timer_1)" > 00 : 10 </button>
-       <!-- 
-        <button class="button" onclick="setTimer(60)" > 01 : 00 </button>
-        <button class="button" onclick="setTimer(90)" > 01 : 30 </button>
-        <button class="button" onclick="setTimer(120)" > 02 : 00 </button>
-        <button class="button" onclick="setTimer(150)" > 02 : 30 </button>
-        <button class="button" onclick="setTimer(180)" > 03 : 00 </button>
-        -->
+        <button class="button" onclick="setTimer(60,timer_1)" > 01 : 00 </button>
+        <button class="button" onclick="setTimer(120,timer_1)" > 02 : 00 </button>
+        <button class="button" onclick="setTimer(180,timer_1)" > 03 : 00 </button>
+        <button class="button" onclick="setTimer(240,timer_1)" > 04 : 00 </button>
+        <button class="button" onclick="setTimer(300,timer_1)" > 05 : 00 </button>
     </div>
 
     <div class="center margin-mini timer" id="timer_1">
         00 : 00
     </div>
 
+    <div class="center asana"> Übung 2 </div>
+
     <div class="center">
-        <button class="button" onclick="setTimer(10,timer_2)" > 00 : 10 </button>
-        <button class="button" onclick="setTimer(30,timer_2)" > 00 : 30 </button>
+        <button class="button" onclick="setTimer(60,timer_2)" > 01 : 00 </button>
+        <button class="button" onclick="setTimer(120,timer_2)" > 02 : 00 </button>
+        <button class="button" onclick="setTimer(180,timer_2)" > 03 : 00 </button>
+        <button class="button" onclick="setTimer(240,timer_2)" > 04 : 00 </button>
+        <button class="button" onclick="setTimer(300,timer_2)" > 05 : 00 </button>
     </div>
 
     <div class="center margin-mini timer" id="timer_2">
         00 : 00
     </div>
 
+    
+    <!--<p class="center asana" id="asana_3" onclick="setAsana(asana_3)"> asana </p>
+
     <div class="center">
-        <button class="button" onclick="setTimer(10,timer_3)" > 00 : 10 </button>
-        <button class="button" onclick="setTimer(30,timer_3)" > 00 : 30 </button>
+        <button onclick="setAsana(asana_3)"> asana </button>
+        <p id="asana_3"> asana </p>
+    </div>
+    -->
+
+    <div class="center asana"> Übung 3 </div>
+    
+    <div class="center">
+        <button class="button" onclick="setTimer(60,timer_3)" > 01 : 00 </button>
+        <button class="button" onclick="setTimer(120,timer_3)" > 02 : 00 </button>
+        <button class="button" onclick="setTimer(180,timer_3)" > 03 : 00 </button>
+        <button class="button" onclick="setTimer(240,timer_3)" > 04 : 00 </button>
+        <button class="button" onclick="setTimer(300,timer_3)" > 05 : 00 </button>
     </div>
 
     <div class="center margin-mini timer" id="timer_3">
@@ -199,12 +227,13 @@
     </div>
 
 
-
+<!--
     <div>
         <button onclick="startAll()">test</button>
     </div>
     <p id="output"></p>
-   
+-->
+    
 
     <div class="center margin-top"> 
         <!-- <img onclick="startTimer(dur)" src="img/start.png"> -->
